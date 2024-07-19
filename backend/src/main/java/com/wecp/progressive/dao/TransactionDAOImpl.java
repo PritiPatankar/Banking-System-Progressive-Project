@@ -85,7 +85,8 @@ public class TransactionDAOImpl implements TransactionDAO{
             connection = DatabaseConnectionManager.getConnection();
             String sql = "INSERT INTO transactions (account_id, amount, transaction_date, transaction_type) VALUES (?, ?, ?, ?)";
             statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, transaction.getAccountId());
+            //Comment previous set field before entity associations
+            // statement.setInt(1, transaction.getAccountId());
             statement.setDouble(2, transaction.getAmount());
             statement.setTimestamp(3, new Timestamp(transaction.getTransactionDate().getTime()));
             statement.setString(4, transaction.getTransactionType());
@@ -120,7 +121,10 @@ public class TransactionDAOImpl implements TransactionDAO{
             connection = DatabaseConnectionManager.getConnection();
             String sql = "UPDATE transactions SET account_id = ?, amount = ?, transaction_date = ?, transaction_type =? WHERE transaction_id = ?";
             statement = connection.prepareStatement(sql);
-            statement.setInt(1, transaction.getAccountId());
+
+            //Comment previous set field before entity associations
+            // statement.setInt(1, transaction.getAccountId());
+
             statement.setDouble(2, transaction.getAmount());
             statement.setTimestamp(3, new Timestamp(transaction.getTransactionDate().getTime()));
             statement.setString(4, transaction.getTransactionType());

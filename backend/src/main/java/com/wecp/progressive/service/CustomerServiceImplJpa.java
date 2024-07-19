@@ -1,95 +1,90 @@
-// package com.wecp.progressive.service;
-
-// import java.util.List;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Service;
-
-// import com.wecp.progressive.entity.Customers;
-// import com.wecp.progressive.repository.CustomerRepository;
-
-// @Service
-// public class CustomerServiceImplJpa implements CustomerService{
-
-//     @Autowired
-//     private CustomerRepository customerRepository;
+package com.wecp.progressive.service;
 
 
-//     @Override
-//     public List<Customers> getAllCustomers(){
-//         // TODO Auto-generated method stub
-//         return customerRepository.findAll();
-       
-//     }
+import com.wecp.progressive.entity.Customers;
+import com.wecp.progressive.exception.CustomerAlreadyExistsException;
+import com.wecp.progressive.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-//     @Override
-//     public Customers getCustomerById(int customerId){
-//         // TODO Auto-generated method stub
-//         return customerRepository.findById(customerId).orElse(null);
-        
-//     }
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-//     @Override
-//     public int addCustomer(Customers customers){
-//         // TODO Auto-generated method stub
-//         customerRepository.save(customers);
-//         return customers.getCustomerId();
-//     }
+@Service
+public class CustomerServiceImplJpa implements CustomerService {
 
-//     @Override
-//     public void updateCustomer(Customers customers) {
-//         // TODO Auto-generated method stub
-//         Customers c = customerRepository.findById(customers.getCustomerId()).orElse(null);
-//         if(c != null){
-//             c.setEmail(customers.getEmail());
-//             c.setName(customers.getName());
-//             c.setPassword(customers.getPassword());
-//             c.setRole(customers.getRole());
-//             c.setUsername(customers.getUsername());
-//             c.setAccounts(customers.getAccounts());
-//             customerRepository.save(c);
-//         }
-//     }
+    private final CustomerRepository customerRepository;
 
-//     @Override
-//     public void deleteCustomer(int customerId){
-//         // TODO Auto-generated method stub
-//         if(customerRepository.findById(customerId) != null){
-//             customerRepository.deleteById(customerId);
-//         }
-        
-//     }
+    @Autowired
+    public CustomerServiceImplJpa(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
-//     @Override
-//     public List<Customers> getAllCustomersSortedByName() {
-//         // TODO Auto-generated method stub
-//         return null;
-//     }
+    private static List<Customers> customersList = new ArrayList<>();
+    @Override
+    public List<Customers> getAllCustomers() {
+        return customerRepository.findAll();
+    }
 
-//     @Override
-//     public List<Customers> getAllCustomersFromArrayList() {
-//         // TODO Auto-generated method stub
-//         return null;
-//     }
+    @Override
+    public Customers getCustomerById(int customerId) {
+        return customerRepository.findByCustomerId(customerId);
+    }
 
-//     @Override
-//     public List<Customers> addCustomersToArrayList(Customers customers) {
-//         // TODO Auto-generated method stub
-//         return null;
-        
-//     }
+    @Override
+    public int addCustomer(Customers customers) {
+        Customers customers1 = customerRepository.findByNameAndEmail(customers.getName(), customers.getEmail());
+        if (customers1 != null) {
+            throw new CustomerAlreadyExistsException("Customer already exists");
+        }
+        return customerRepository.save(customers).getCustomerId();
+    }
 
-//     @Override
-//     public List<Customers> getAllCustomersSortedByNameFromArrayList() {
-//         // TODO Auto-generated method stub
-//         return null;
-        
-//     }
+    @Override
+    public void updateCustomer(Customers customers) {
+        customerRepository.save(customers);
+    }
 
-//     @Override
-//     public void emptyArrayList() {
-//         // TODO Auto-generated method stub
-        
-//     }
-    
-// }
+    @Override
+    @Transactional
+    @Modifying
+    public void deleteCustomer(int customerId) {
+        customerRepository.deleteByCustomerId(customerId);
+    }
+
+    @Override
+    public List<Customers> getAllCustomersSortedByName() {
+        List<Customers> sortedCustomers = customerRepository.findAll();
+        Collections.sort(sortedCustomers);
+        return sortedCustomers;
+    }
+
+
+
+    // The methods mentioned below have to be used for storing and manipulating data in an ArrayList.
+    @Override
+    public List<Customers> getAllCustomersFromArrayList() {
+        return customersList;
+    }
+
+    @Override
+    public List<Customers> addCustomersToArrayList(Customers customers) {
+        customersList.add(customers);
+        return customersList;
+    }
+
+    @Override
+    public List<Customers> getAllCustomersSortedByNameFromArrayList() {
+        List<Customers> sortedCustomers = customersList;
+        Collections.sort(sortedCustomers);
+        return sortedCustomers;
+    }
+
+    @Override
+    public void emptyArrayList() {
+        customersList = new ArrayList<>();
+    }
+}

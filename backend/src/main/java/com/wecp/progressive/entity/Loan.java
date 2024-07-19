@@ -1,50 +1,40 @@
 package com.wecp.progressive.entity;
 
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Loan {
-
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String loanType;
-    private Double amount;
-    
-   
-    public Loan() {
+    private double amount;
+
+    public Long getId() {
+        return id;
     }
-    
-    public Loan(int id, String loanType, Double amount) {
+
+    public void setId(Long id) {
         this.id = id;
-        this.loanType = loanType;
-        this.amount = amount;
     }
 
     public String getLoanType() {
         return loanType;
     }
+
     public void setLoanType(String loanType) {
         this.loanType = loanType;
     }
-    public Double getAmount() {
+
+    public double getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+
+    public void setAmount(double amount) {
         this.amount = amount;
     }
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    
-
-
-
 }
