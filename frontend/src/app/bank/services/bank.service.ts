@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Transaction } from "../types/Transaction";
 import { Observable } from "rxjs";
 import { Customer } from "../types/Customer";
-import { Account } from "../types/Account";
+import { Account } from "../types/tstypes/Accountts";
 // import { transition } from "@angular/animations";
 
 @Injectable({
