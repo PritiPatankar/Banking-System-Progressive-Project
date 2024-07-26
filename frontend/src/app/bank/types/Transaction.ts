@@ -1,20 +1,19 @@
-
-import { AccountTS } from './Accountts';
-
-export class TransactionTS {
+import { Account } from './Account';
+ 
+export class Transaction {
     transactionId?: number;
     accountId: string;
   amount: number;
   transactionDate: Date;
    transactionType:string;
-
+ 
     constructor(accountId: string, amount: number, transactionDate: Date, transactionId?:number) {
         this.transactionId = transactionId;
         this.accountId = accountId;
         this.amount = amount;
         this.transactionDate = transactionDate;
     }
-
+ 
     displayInfo() {
         console.log(`Transaction ID: ${this.transactionId}`);
         console.log(`Account ID: ${this.accountId}`);
@@ -23,6 +22,6 @@ export class TransactionTS {
         console.log("------");
     }
 }
-
-const transaction = new TransactionTS("1", 50.00, new Date(),1);
+ 
+const transaction = new Transaction("1", 50.00, new Date(),1);
 transaction.displayInfo();
