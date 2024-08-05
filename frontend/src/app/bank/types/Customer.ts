@@ -1,4 +1,3 @@
-//Customer.ts
 export class Customer {
     customerId?: string;
     name: string;
@@ -6,16 +5,16 @@ export class Customer {
     password:string;
     username:string;
     role?:string;
- 
-      constructor(name: string, email: string, username: string, password: string, role: string, customerId?:string) {
-          this.customerId = customerId;
-          this.name = name;
-          this.email = email;
-          this.username = username;
-          this.password = password;
-          this.role = role;
+  
+      constructor(data:any) {
+          this.customerId = data.customerId;
+          this.name = data.name;
+          this.email = data.email;
+          this.username = data.username;
+          this.password = data.password;
+          this.role = data.role;
       }
- 
+  
       displayInfo() {
           console.log(`Customer ID: ${this.customerId}`);
           console.log(`Name: ${this.name}`);
@@ -26,8 +25,9 @@ export class Customer {
           console.log("------");
       }
   }
- 
- 
-  // Example Usage
-  const customer = new Customer( "John Doe", "john@example.com", "john_doe", "password123", "User","1");
-  customer.displayInfo();
+  
+  
+  
+  
+  
+  

@@ -9,4 +9,5 @@ import { AccountTS } from '../../types/tstypes/Accountts';
   styleUrls: ['./accountsample.component.css']
 })
 export class AccountsampleComponent {
-  account:AccountTS= new AccountTS("1",50000.00,"2");}
+   account:AccountTS=new AccountTS("1",500.00,"1");
+}
