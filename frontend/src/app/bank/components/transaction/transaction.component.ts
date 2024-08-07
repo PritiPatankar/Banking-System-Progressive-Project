@@ -11,7 +11,7 @@ import { Customer } from "../../types/Customer";
 @Component({
   selector: "app-transaction",
   templateUrl: "./transaction.component.html",
-  styleUrls: ["./transaction.component.scss"],
+  styleUrls: ["./transaction.component.css"],
 })
 export class TransactionComponent implements OnInit {
   transactionForm: FormGroup;
